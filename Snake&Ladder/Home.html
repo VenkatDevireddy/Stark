@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Ludo Game</title>
+        <script type="text/javascript" src="jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                var cells = [], curIndex = 1, chart = [], playerIndex = [];
+                for (i = 100; i >= 1; i--) {
+                    cells[i] = '<div style="background-color:' + getRandomColor() + '" onclick="alert($(this).index())">' + i + '</div>'; //onclick="alert($(this).text())"
+                    chart[i] = i;
+                }
+                chart.reverse();
+                //console.log(chart, chart.length);
+                for (i = 1; i <= 10; i++) {
+                    if (i % 2 == 0) {
+                        $('.ludoContainer').prepend(cells.slice(curIndex, curIndex + 10).reverse().join(""));
+                        playerIndex = playerIndex.concat(chart.slice(curIndex - 1, curIndex + 9).reverse());
+                    }
+                    else {
+                        $('.ludoContainer').prepend(cells.slice(curIndex, curIndex + 10).join(""));
+                        playerIndex = playerIndex.concat(chart.slice(curIndex - 1, curIndex + 9));
+                    }
+                    curIndex = curIndex + 10;
+                }
+                //for(a in playerIndex)
+                //console.log(a,playerIndex[a]);
+                //$('div.ludoContainer > div').css('background-color', getRandomColor());
+                //$('div.ludoContainer > div:even').addClass('whiteCells');
+                //$('div.ludoContainer > div:odd').addClass('blackCells');
+                //console.log($('.ludoContainer').html().toString());
+                //$('div:eq('+56+')').css('background-color', 'white');
+                //$('div:eq(' + 56 + ')').css('background-image', 'url(https://goo.gl/7FCvoD)');
+
+                var snakePos = { 98: 79, 95: 75, 93: 73, 87: 24, 62: 19, 64: 60, 54: 34, 17: 7 };
+                var ladderPos = { 1: 38, 4: 14, 9: 31, 21: 42, 28: 84, 51: 67, 71: 91, 80: 100 };
+                //console.log(snakePos);
+                //var x = Object.keys(snakePos);
+                for (snakes in snakePos) {
+                    $('div > div:eq(' + playerIndex.indexOf(parseInt(snakes)) + ')').css('background-image','url("snake.png")');
+                }
+                for (ladders in ladderPos) {
+                    $('div > div:eq(' + playerIndex.indexOf(parseInt(ladders)) + ')').css('background-image','url("ladder.png")');
+                }
+            });
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF'.split('');
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color=='#FFFFFF'?'#000000':color;
+            }        
+        </script>
+        <style type="text/css">
+            .ludoContainer {
+                margin:auto;
+                width:820px;
+                height:auto;
+                background-color:lavender;
+                padding:40px;
+                line-height:0px;
+            }
+
+           div.ludoContainer > div {                
+                display:inline-block; 
+                border:1px solid #FFFFFF;
+                border-collapse:collapse;
+                line-height:80px;
+                text-align:center;
+                font-family:Verdana;
+                font-size:35px;
+                color:#FFFFFF;
+                font-weight:bold;
+                height:80px;
+                width:80px;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+           }
+<!--           .whiteCells {
+                background-color:white; 
+            }
+           .blackCells {
+                background-color:lightgrey;
+            }-->
+        </style>
+    </head>
+    <body>
+        <div class="ludoContainer">
+        </div>
+    </body>
+</html>
